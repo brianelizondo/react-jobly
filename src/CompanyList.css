@@ -1,0 +1,22 @@
+.CompanyList-search{
+    margin-bottom: 30px;
+}
+.CompanyList-search input{
+    margin-right: 5px;
+}
+.CompanyList-search button{
+    font-weight: bold;
+    font-size: 15px !important;
+    text-transform: uppercase;
+}
+.CompanyList-list{
+    margin-bottom: 50px;
+}
+
+.CompanyList-list a{
+    color: black !important;
+}
+.CompanyList-list a:hover{
+    color: darkblue !important;
+    text-decoration: none !important;
+}

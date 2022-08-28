@@ -1,0 +1,13 @@
+.CompanyList-list .card{
+    margin-bottom: 20px;
+}
+.CompanyList-list .card:hover{
+    cursor: pointer !important;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5) !important;
+}
+.CompanyList-list .card-title{
+    font-weight: bold;
+}
+.CompanyList-list .card-text{
+    font-size: 13px;
+}

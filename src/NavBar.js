@@ -1,38 +1,38 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import { Navbar, NavbarBrand, Nav, NavItem } from "reactstrap";
+import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { Navbar, NavbarBrand, Nav } from "reactstrap";
+import UserContext from "./userContext";
 import "./NavBar.css"
 
-function NavBar() {
-  return (
-    <div className="NavBar">
-        <Navbar>
-            <NavbarBrand className="NavBar-brand" href="/">Jobly</NavbarBrand>
+import NavBarLogged from "./NavBarLogged";
+import NavBarUnlogged from "./NavBarUnlogged";
 
-            <Nav className="NavBar-links">
-                <NavItem>
-                    <NavLink exact to="/login" activeClassName="NavBar-links-active">Login</NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink exact to="/signup" activeClassName="NavBar-links-active">Sign Up</NavLink>
-                </NavItem>
-                
-                <NavItem>
-                    <NavLink exact to="/companies" activeClassName="NavBar-links-active">Companies</NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink exact to="/jobs" activeClassName="NavBar-links-active">Jobs</NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink exact to="/profile" activeClassName="NavBar-links-active">Profile</NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink exact to="/logout" activeClassName="NavBar-links-active">Logout</NavLink>
-                </NavItem>
-            </Nav>
-        </Navbar>
-    </div>
-  );
+function NavBar({ userLogout }) {
+    const history = useHistory();
+    // get info about current user
+    const user = useContext(UserContext);
+    
+    // function to handle the logout action
+    const handleLogout = evt => {
+        evt.preventDefault();
+        userLogout();
+        history.push(`/`);
+    }
+
+    return (
+        <div className="NavBar">
+            <Navbar>
+                <NavbarBrand className="NavBar-brand" href="/">Jobly</NavbarBrand>
+
+                <Nav className="NavBar-links">
+                    { user 
+                        ? <NavBarLogged logout={handleLogout} />
+                        : <NavBarUnlogged />
+                    }
+                </Nav>
+            </Navbar>
+        </div>
+    );
 }
 
 export default NavBar;

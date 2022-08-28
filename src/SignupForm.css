@@ -1,0 +1,9 @@
+.SignupForm h2{
+    margin-bottom: 20px;
+}
+.SignupForm label{
+    font-weight: bold;
+}
+.SignupForm input{
+    margin-bottom: 20px;
+}

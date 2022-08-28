@@ -1,0 +1,12 @@
+.UserProfile h2{
+    margin-bottom: 20px;
+}
+.UserProfile label{
+    font-weight: bold;
+}
+.UserProfile input{
+    margin-bottom: 20px;
+}
+.UserProfile button{
+    width: 100% !important;
+}

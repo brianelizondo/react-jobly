@@ -1,0 +1,11 @@
+.Home{
+    text-align: center;
+}
+h1{
+    margin-top: 150px;
+    font-weight: bold !important;
+}
+.Home-buttons a{
+    font-weight: bold;
+    margin: 0px 5px;
+}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import JoblyApi from "./api";
 import UserContext from "./userContext";
+import useLocalStorage from "./hooks";
 import "./App.css"; 
 
 import NavBar from "./NavBar";
@@ -13,15 +14,18 @@ import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import UserProfile from "./UserProfile";
 import PageNotFound from "./PageNotFound";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
-    // initial state for the current user token, login and signup
-    const [token, setToken] = useState(false);
-    const [currentUser, setCurrentUser] = useState(false);
+    // initial state for the token, check the local storage
+    const [token, setToken] = useLocalStorage("jobly_token");
+    // initial state for the current user, login and signup
+    const [currentUser, setCurrentUser] = useLocalStorage("jobly_currentUser");
     useEffect(() => {
         if(token){
             async function getUserInfo() {
-                let resp = await JoblyApi.getUser(currentUser);
+                JoblyApi.token = token;
+                let resp = await JoblyApi.getUser(currentUser.username);
                 setCurrentUser(resp);
             }
             getUserInfo();
@@ -33,13 +37,13 @@ function App() {
         let resp = await JoblyApi.registerUser(user);
         JoblyApi.token = resp.token;
         setToken(resp.token);
-        setCurrentUser(user.username);
+        setCurrentUser({ username: user.username });
     }
     const userLogin = async user => {
         let resp = await JoblyApi.loginUser(user);
         JoblyApi.token = resp.token;
         setToken(resp.token);
-        setCurrentUser(user.username);
+        setCurrentUser({ username: user.username });
     }
     const userLogout = () => {
         setToken(false);
@@ -54,15 +58,12 @@ function App() {
                     <Route exact path="/">
                         <Home />
                     </Route>
-                    <Route exact path="/companies">
-                        <CompanyList />
-                    </Route>
-                    <Route exact path="/companies/:id">
-                        <CompanyDetails />
-                    </Route>
-                    <Route exact path="/jobs">
-                        <JobList />
-                    </Route>
+
+                    {/* PROTECTED ROUTES */}
+                    <ProtectedRoute exact path="/companies" component={CompanyList} />
+                    <ProtectedRoute exact path="/companies/:id" component={CompanyDetails} />
+                    <ProtectedRoute exact path="/jobs" component={JobList} />    
+                    
                     <Route exact path="/login">
                         <LoginForm userLogin={userLogin} />
                     </Route>

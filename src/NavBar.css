@@ -1,0 +1,22 @@
+.NavBar{
+    background-color: white;
+    border-bottom: 2px solid lightgray;
+    margin-bottom: 50px;
+}
+.NavBar-brand{
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.NavBar-links a{
+    color: black;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.NavBar-links a:hover{
+    text-decoration: none !important;
+    border-bottom: 1px dotted;
+}
+.NavBar-links-active{
+    font-weight: bold !important;
+}

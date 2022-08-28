@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import "./App.css"; 
 
+import NavBar from "./NavBar";
 import Home from "./Home";
 import CompanyList from "./CompanyList";
 import CompanyDetails from "./CompanyDetails";
@@ -14,6 +15,7 @@ import PageNotFound from "./PageNotFound";
 function App() {
     return (
         <BrowserRouter>
+            <NavBar />
             <Switch>
                 <Route exact path="/">
                     <Home />

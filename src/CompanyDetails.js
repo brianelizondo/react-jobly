@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import "./CompanyDetails.css"
 
 import JoblyApi from "./api";
+import JobCard from "./JobCard";
 
 function CompanyDetails() {
     // get the handle id from the browser url
@@ -25,7 +26,7 @@ function CompanyDetails() {
             <div className="CompanyDetails-name">{ company.name }</div>
             <div className="CompanyDetails-description">{ company.description }</div>
             <div className="CompanyList-jobs">
-                
+                { companyJobs.map(job => (<JobCard key={job.id} job={job} />)) }
             </div>
         </div>
     );

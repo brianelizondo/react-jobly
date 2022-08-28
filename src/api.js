@@ -52,6 +52,18 @@ class JoblyApi {
         let res = await this.request(`companies/?name=${urlSearchTerms}`);
         return res;
     }
+
+    /** Get all jobs listed */
+    static async getJobs(){
+        let res = await this.request(`jobs/`);
+        return res;
+    }
+    /** Find jobs listed by search term */
+    static async findJobs(searchTerms){
+        let urlSearchTerms = searchTerms.split(" ").join("+");
+        let res = await this.request(`jobs/?title=${urlSearchTerms}`);
+        return res;
+    }
 }
 
 // for now, put token ("testuser" / "password" on class)

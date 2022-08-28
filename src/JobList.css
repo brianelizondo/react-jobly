@@ -1,0 +1,14 @@
+.JobList-search{
+    margin-bottom: 30px;
+}
+.JobList-search input{
+    margin-right: 5px;
+}
+.JobList-search button{
+    font-weight: bold;
+    font-size: 15px !important;
+    text-transform: uppercase;
+}
+.JobList-list{
+    margin-bottom: 50px;
+}

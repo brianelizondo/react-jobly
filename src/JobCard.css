@@ -1,0 +1,23 @@
+.card{
+    margin-bottom: 20px;
+}
+.card-title{
+    font-weight: bold;
+}
+.card:hover{
+    cursor:default !important;
+    box-shadow:none !important;
+}
+
+.JobCard-text{
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+.JobCard-button{
+    text-align: right;
+    margin-top: 10px;
+}
+.JobCard-button button{
+    font-weight: bold;
+    text-transform: uppercase;
+}

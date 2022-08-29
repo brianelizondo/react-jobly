@@ -5,7 +5,7 @@ import "./Home.css"
 
 function Home(){
     // get info about current user
-    const user = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     return (
         <div className="Home">

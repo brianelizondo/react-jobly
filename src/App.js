@@ -32,7 +32,7 @@ function App() {
         }
     }, [token]);
 
-    // function to sign up, login and logout
+    // function to user update, sign up, login and logout
     const userSignup = async user => {
         let resp = await JoblyApi.registerUser(user);
         JoblyApi.token = resp.token;
@@ -49,10 +49,16 @@ function App() {
         setToken(false);
         setCurrentUser(false);
     }
+    const userUpdateInfo = async user => {
+        JoblyApi.token = token;
+        let resp = await JoblyApi.updateUser(user);
+        let respUser = await JoblyApi.getUser(resp.username);
+        setCurrentUser(respUser);
+    }
 
     return (
         <BrowserRouter>
-            <UserContext.Provider value={ currentUser }>
+            <UserContext.Provider value={{ user: currentUser, userUpdateInfo }}>
                 <NavBar userLogout={userLogout} />
                 <Switch>
                     <Route exact path="/">
@@ -62,16 +68,14 @@ function App() {
                     {/* PROTECTED ROUTES */}
                     <ProtectedRoute exact path="/companies" component={CompanyList} />
                     <ProtectedRoute exact path="/companies/:id" component={CompanyDetails} />
-                    <ProtectedRoute exact path="/jobs" component={JobList} />    
+                    <ProtectedRoute exact path="/jobs" component={JobList} />
+                    <ProtectedRoute exact path="/profile" component={UserProfile} />
                     
                     <Route exact path="/login">
                         <LoginForm userLogin={userLogin} />
                     </Route>
                     <Route exact path="/signup">
                         <SignupForm userSignup={userSignup} />
-                    </Route>
-                    <Route exact path="/profile">
-                        <UserProfile />
                     </Route>
                     <Route>
                         <PageNotFound />

@@ -58,7 +58,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <UserContext.Provider value={{ user: currentUser, userUpdateInfo }}>
+            <UserContext.Provider value={{ user: currentUser, userUpdateInfo, setCurrentUser, token }}>
                 <NavBar userLogout={userLogout} />
                 <Switch>
                     <Route exact path="/">

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import _debounce from 'lodash/debounce';
 import { Form, FormGroup, Input, Button } from "reactstrap";
 import "./JobList.css";
 
@@ -42,18 +43,21 @@ function JobList(){
             ...fData,
             [name]: value
         }));
+        debounceFn(value);
     };
-    const searchJobs = evt => {
-        evt.preventDefault();
+    const searchJobs = (searchTerms) => {
+        // evt.preventDefault();
         async function getFilteredJobs() {
             setLoading(true);
-            let resp = await JoblyApi.findJobs(formData.search);
+            let resp = await JoblyApi.findJobs(searchTerms);
             // set the jobs list
             setJobs(resp.jobs);
             setLoading(false);
         }
         getFilteredJobs();
     }
+    // live search with lodash debounce function
+    const debounceFn = useCallback(_debounce(searchJobs, 1000), []);
 
     if(loading){
         return <Loading />;

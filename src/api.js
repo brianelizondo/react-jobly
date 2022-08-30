@@ -70,6 +70,11 @@ class JoblyApi {
         let res = await this.request(`users/${jobApplication.username}/jobs/${jobApplication.jobId}`, {}, "post");
         return res;
     }
+    /** Un-Apply for a job */
+    static async unapplyJob(jobApplication){
+        let res = await this.request(`users/${jobApplication.username}/jobs/${jobApplication.jobId}`, {}, "delete");
+        return res;
+    }
 
 
     /** USERS */

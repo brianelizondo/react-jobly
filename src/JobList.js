@@ -3,6 +3,8 @@ import { Form, FormGroup, Input, Button } from "reactstrap";
 import "./JobList.css";
 
 import JoblyApi from "./api";
+import Loading from "./Loading";
+import PaginationCustom from "./PaginationCustom";
 import JobCard from "./JobCard";
 
 function JobList(){
@@ -13,11 +15,22 @@ function JobList(){
     // state value for jobs list
     const [jobs, setJobs] = useState([]);
 
+    // pagination config
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const resultsPerPage = 30;
+    const indexOfLastResult = currentPage * resultsPerPage;
+    const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+    const currentResults = jobs.slice(indexOfFirstResult, indexOfLastResult);
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
     useEffect(() => {
         async function getJobs() {
+            setLoading(true);
             let resp = await JoblyApi.getJobs();
             // set the jobs list
             setJobs(resp.jobs);
+            setLoading(false);
         }
         getJobs();
     }, []);
@@ -33,11 +46,17 @@ function JobList(){
     const searchJobs = evt => {
         evt.preventDefault();
         async function getFilteredJobs() {
+            setLoading(true);
             let resp = await JoblyApi.findJobs(formData.search);
             // set the jobs list
             setJobs(resp.jobs);
+            setLoading(false);
         }
         getFilteredJobs();
+    }
+
+    if(loading){
+        return <Loading />;
     }
 
     return (
@@ -51,7 +70,10 @@ function JobList(){
                 </Form>
             </div>
             <div className="JobList-list">
-                { jobs.map(job => (<JobCard job={job} key={job.id} />)) }
+                { currentResults.map(job => (<JobCard job={job} key={job.id} />)) }
+            </div>
+            <div className="JobList-pagination">
+                <PaginationCustom resultsPerPage={resultsPerPage} totalResults={jobs.length} paginate={paginate} />
             </div>
         </div>
     );

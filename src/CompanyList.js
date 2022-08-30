@@ -3,6 +3,8 @@ import { Form, FormGroup, Input, Button } from "reactstrap";
 import "./CompanyList.css";
 
 import JoblyApi from "./api";
+import Loading from "./Loading";
+import PaginationCustom from "./PaginationCustom";
 import CompanyCard from "./CompanyCard";
 
 function CompanyList(){
@@ -13,11 +15,22 @@ function CompanyList(){
     // state value for companies list
     const [companies, setCompanies] = useState([]);
 
+    // pagination config
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const resultsPerPage = 20;
+    const indexOfLastResult = currentPage * resultsPerPage;
+    const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+    const currentResults = companies.slice(indexOfFirstResult, indexOfLastResult);
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
     useEffect(() => {
         async function getCompanies() {
+            setLoading(true);
             let resp = await JoblyApi.getCompanies();
             // set the companies list
             setCompanies(resp.companies);
+            setLoading(false);
         }
         getCompanies();
     }, []);
@@ -33,11 +46,17 @@ function CompanyList(){
     const searchCompanies = evt => {
         evt.preventDefault();
         async function getFilteredCompanies() {
+            setLoading(true);
             let resp = await JoblyApi.findCompanies(formData.search);
             // set the companies list
             setCompanies(resp.companies);
+            setLoading(false);
         }
         getFilteredCompanies();
+    }
+
+    if(loading){
+        return <Loading />;
     }
 
     return (
@@ -51,7 +70,10 @@ function CompanyList(){
                 </Form>
             </div>
             <div className="CompanyList-list">
-                { companies.map(company => (<CompanyCard company={company} key={company.handle} />)) }
+                { currentResults.map(company => (<CompanyCard company={company} key={company.handle} />)) }
+            </div>
+            <div className="CompanyList-pagination">
+                <PaginationCustom resultsPerPage={resultsPerPage} totalResults={companies.length} paginate={paginate} />
             </div>
         </div>
     );
